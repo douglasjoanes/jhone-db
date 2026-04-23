@@ -22,7 +22,7 @@ Adicione o repositório ao seu arquivo `composer.json` ou instale via terminal (
 composer require douglas-joanes/jhonestack-db
 ````
 
-## Configuração Inicial
+## ⚙️Configuração Inicial
 Para começar, inicialize a conexão e injete-a no Model base da sua aplicação:
 
 ````bash
@@ -41,4 +41,62 @@ $config = [
 
 $pdo = DatabaseFactory::create($config);
 Model::setConnection($pdo);
+````
+
+## 📖 Guia de Uso
+# Definindo um Model
+
+```bash
+namespace App\Models;
+
+use Jhonestack\Database\Model;
+
+class User extends Model
+{
+    protected string $table = 'users';
+    protected array $fillable = ['nome', 'email', 'senha'];
+    protected bool $usesSoftDeletes = false;
+}
+````
+
+# Consultas com Query Builder
+
+```bash
+// Buscar todos os usuários ativos
+$users = User::query()
+    ->where('status', 'ativo')
+    ->orderBy('nome', 'ASC')
+    ->get();
+
+// Buscar um registro específico
+$user = User::find(1);
+````
+
+# Inserção e Atualização (Active Record)
+
+```bash
+// Buscar todos os usuários ativos
+$users = User::query()
+    ->where('status', 'ativo')
+    ->orderBy('nome', 'ASC')
+    ->get();
+
+// Buscar um registro específico
+$user = User::find(1);
+````
+
+# Exclusão
+
+```bash
+$user = User::find(1);
+$user->delete();
+````
+
+## 🛠️ Estrutura do Projeto
+
+```bash
+src/
+├── DatabaseFactory.php  # Gerenciador de conexão
+├── Model.php            # Classe base para entidades
+└── QueryBuilder.php     # Motor de construção de queries
 ````
